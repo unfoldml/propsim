@@ -1,0 +1,17 @@
+[package]
+name = "propsim-history"
+description = "The Jepsen-shaped operation-history interchange type for propsim — read and emit histories in EDN/JSON, with clock provenance. Zero required dependencies."
+edition.workspace = true
+rust-version.workspace = true
+license.workspace = true
+repository.workspace = true
+version.workspace = true
+
+[features]
+default = []
+# Adds serde derives on the public types. NOT required for the Jepsen EDN/JSON
+# emit/parse path, which is hand-written so the crate has zero required deps.
+serde = ["dep:serde"]
+
+[dependencies]
+serde = { workspace = true, optional = true }

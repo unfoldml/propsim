@@ -1,0 +1,11 @@
+[package]
+name = "propsim-oracle"
+description = "Native, no-external-process oracles for propsim: a Porcupine-style linearizability checker (Wing-Gong / Lowe) over a recorded history, against a user-supplied sequential model."
+edition.workspace = true
+rust-version.workspace = true
+license.workspace = true
+repository.workspace = true
+version.workspace = true
+
+[dependencies]
+propsim-core = { workspace = true }

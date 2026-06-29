@@ -1,0 +1,16 @@
+[package]
+name = "propsim-sim"
+description = "The deterministic in-process executor for propsim: a single-threaded, virtual-time discrete-event simulator with a seeded RNG and an in-memory transport. Drives Style-A Node state machines and evaluates white-box properties."
+edition.workspace = true
+rust-version.workspace = true
+license.workspace = true
+repository.workspace = true
+version.workspace = true
+
+[dependencies]
+propsim-core = { workspace = true }
+proptest = { workspace = true }
+
+[dev-dependencies]
+# The end-to-end test checks engine-produced histories with the native oracle.
+propsim-oracle = { workspace = true }

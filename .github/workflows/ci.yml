@@ -1,0 +1,44 @@
+# CI drives that Makefile and nothing else, so the pre-push gate and CI can never drift.
+#
+#   gate      blocking: fmt-check + clippy + build + test + all-features + pjrt
+
+name: CI
+
+on:
+  push:
+    branches: ["**"]
+  pull_request:
+  workflow_dispatch:
+
+# Cancel superseded runs on the same ref to save minutes on rapid pushes.
+concurrency:
+  group: ci-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  gate:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      # MSRV 1.96 (rust-version in both workspace manifests). rustfmt + clippy
+      # are required by `make fmt-check` / `make clippy`. This action also writes
+      # ~/.cargo/env, which every Makefile recipe sources to find cargo.
+      - name: Install Rust 1.96
+        uses: dtolnay/rust-toolchain@1.96
+        with:
+          components: rustfmt, clippy
+
+      # Cache cargo registry + build artifacts, keyed off both lockfiles.
+      - name: Cache cargo
+        uses: Swatinem/rust-cache@v2
+
+      # Discrete steps (vs. `make check`) so a failure pinpoints the stage.
+      - name: Format check
+        run: make fmt-check
+
+      - name: Clippy
+        run: make clippy
+
+      - name: Test (all features)
+        run: make test-all-features

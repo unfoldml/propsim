@@ -1,0 +1,24 @@
+[package]
+name = "propsim-core"
+description = "The stable plugin contract for propsim: Executor/Oracle/Transport/Node traits, Backend + capability negotiation, Property/World, Faults, Seed, and Scenario. The surface external executors and oracles compile against."
+edition.workspace = true
+rust-version.workspace = true
+license.workspace = true
+repository.workspace = true
+version.workspace = true
+
+[features]
+default = []
+# Enables Scenario::save/load and serde derives on the public types. Pulls serde
+# (and transitively propsim-history's serde) into the closure. Off by default to
+# keep the Tier-1 default dependency set to just proptest + propsim-history.
+serde = ["dep:serde", "dep:serde_json", "propsim-history/serde"]
+
+[dependencies]
+# proptest is part of the PUBLIC API (the Strategy passed to `.workload`), so a
+# proptest major bump implies a propsim-core major bump (architecture.md §17.4).
+proptest = { workspace = true }
+propsim-history = { workspace = true }
+
+serde = { workspace = true, optional = true }
+serde_json = { version = "1", optional = true }

@@ -1,0 +1,29 @@
+[package]
+name = "propsim"
+description = "Property-based testing for distributed protocols in Rust: author one backend-neutral TestPlan and run it on a deterministic in-process simulator. The batteries-included facade — re-exports the stable contract and bundles the deterministic executor and native oracles."
+edition.workspace = true
+rust-version.workspace = true
+license.workspace = true
+repository.workspace = true
+version.workspace = true
+
+[features]
+default = []
+# Opt-in heavy adapters (Tier 3). These pull JVM/cluster/Go and are stubs until
+# their adapter crates land; gating them keeps default `cargo test` pure Rust.
+elle = []
+jepsen = []
+iroh = ["dep:propsim-iroh"]
+
+[dependencies]
+propsim-core = { workspace = true }
+propsim-sim = { workspace = true }
+propsim-oracle = { workspace = true }
+proptest = { workspace = true }
+propsim-iroh = { workspace = true, optional = true }
+
+[dev-dependencies]
+# Tests reach the engine and core types directly to record/inspect histories.
+propsim-sim = { workspace = true }
+propsim-core = { workspace = true }
+proptest = { workspace = true }

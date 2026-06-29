@@ -1,0 +1,27 @@
+[workspace]
+resolver = "2"
+members = ["crates/*"]
+
+[workspace.package]
+edition = "2021"
+rust-version = "1.96"
+license = "MIT OR Apache-2.0"
+repository = "https://github.com/unfoldml/grid-xla"
+version = "0.0.0"
+
+[workspace.dependencies]
+# Internal crates referenced by path so the family stays self-contained and a
+# future extraction to its own repo is a clean `git mv`.
+propsim-history = { path = "crates/propsim-history", version = "0.0.0" }
+propsim-core = { path = "crates/propsim-core", version = "0.0.0" }
+propsim-sim = { path = "crates/propsim-sim", version = "0.0.0" }
+propsim-oracle = { path = "crates/propsim-oracle", version = "0.0.0" }
+propsim-iroh = { path = "crates/propsim-iroh", version = "0.0.0" }
+
+# `proptest` is part of propsim-core's PUBLIC API (the `Strategy` passed to
+# `.workload(..)`), so a proptest major bump implies a propsim-core major bump.
+# Single-sourced here per architecture.md §17.4.
+proptest = "1"
+
+# Optional everywhere; off by default. Pulled in only by the `serde` feature.
+serde = { version = "1", features = ["derive"] }

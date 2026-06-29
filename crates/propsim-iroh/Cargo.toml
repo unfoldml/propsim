@@ -1,0 +1,15 @@
+[package]
+name = "propsim-iroh"
+description = "The iroh Transport adapter for propsim (Tier 3). SHAPE ONLY: pins the in-memory transport surface that iroh's pluggable custom-transport seam will bind to. Real Endpoint binding and spawn_each driving land with propsim-intercept."
+edition.workspace = true
+rust-version.workspace = true
+license.workspace = true
+repository.workspace = true
+version.workspace = true
+
+[dependencies]
+propsim-core = { workspace = true }
+# NOTE: the real `iroh` dependency is intentionally NOT pulled yet. iroh's
+# pluggable custom-transport seam (n0-computer/iroh#3848) is not stably released,
+# and the driving path depends on propsim-intercept. This crate currently pins
+# only the Transport *shape*; adding `iroh` is a later phase.
